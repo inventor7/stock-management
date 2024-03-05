@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamp('date');
+            $table->string('id')->primary();
             $table->string('status');
-            $table->string('address');
+            $table->string('adress');
+            $table->string('wilaya');
+            $table->string('commune');
             $table->string('note');
-            $table->foreignId('clientId')->constrained('clients');
-            $table->foreignId('leaderId')->constrained('workers');
-            $table->boolean('isShipped');
+            $table->string('client_id');
+            $table->string('leader_id');
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('leader_id')->references('id')->on('workers');
             $table->timestamps();
-
-           
         });
     }
 

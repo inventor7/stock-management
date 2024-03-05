@@ -10,8 +10,13 @@ class Client extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
+
+    
 }

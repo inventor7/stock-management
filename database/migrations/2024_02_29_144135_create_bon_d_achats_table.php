@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bon_d_achats', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('bonAchatId')->constrained('achats');
+            $table->string('id')->primary();
+            $table->string('bon_d_achats_id');
+            $table->foreign('bon_d_achats_id')->references('id')->on('achats');
             $table->timestamp('date');
             $table->string('status');
             $table->timestamps();

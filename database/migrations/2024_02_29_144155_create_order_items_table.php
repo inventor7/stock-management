@@ -12,18 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->integer('quantity');
-            $table->timestamp('date');
-            $table->boolean('isShipped');
-            $table->foreignId('takenBy')->constrained('workers');
-            $table->foreignId('shippedBy')->constrained('workers');
-            $table->foreignId('orderId')->constrained('orders');
-            $table->foreignId('productId')->constrained('products');
+
+            $table->string('worker_id')->nullable()->default(null);
+            $table->foreign('worker_id')->references('id')->on('workers');
+
+            $table->string('order_id')->nullable()->default(null);
+            $table->string('product_id')->nullable()->default(null);
+
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('product_id')->references('id')->on('products');
+
             $table->timestamps();
-
-
-
         });
     }
 

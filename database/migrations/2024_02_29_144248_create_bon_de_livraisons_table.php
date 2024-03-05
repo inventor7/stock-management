@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bon_de_livraisons', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('orderId')->constrained('orders');
+            $table->string('id')->primary();    
+            $table->string('order_id');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamp('date');
             $table->string('status');
             $table->timestamps();

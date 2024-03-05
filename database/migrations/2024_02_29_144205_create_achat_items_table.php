@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('achat_items', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->integer('quantity');
             $table->timestamp('date');
             $table->boolean('isValid');
-            $table->foreignId('productId')->constrained('products');
-            $table->foreignId('achatId')->constrained('bon_d_achats');
+            $table->string('product_id');
+            $table->string('achat_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('achat_id')->references('id')->on('achats');
             $table->timestamps();
         });
     }
