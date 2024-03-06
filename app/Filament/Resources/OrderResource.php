@@ -30,6 +30,8 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
+    protected static ?string $modelLabel = 'Commandes';
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
@@ -41,12 +43,12 @@ class OrderResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->columnSpan(1)
-                            ->label('Created at')
+                            ->label('Créé le')
                             ->content(fn (Order $record): ?string => $record->created_at?->diffForHumans()),
 
                         Forms\Components\Placeholder::make('updated_at')
                             ->columnSpan(1)
-                            ->label('Last modified at')
+                            ->label('Dernière modification')
                             ->content(fn (Order $record): ?string => $record->updated_at?->diffForHumans()),
                     ])
                     ->hidden(fn (?Order $record) => $record === null),
@@ -56,12 +58,12 @@ class OrderResource extends Resource
                 Forms\Components\Section::make()
                     ->columns(2)
                     ->schema([
-                        Forms\Components\Section::make('Info')
+                        Forms\Components\Section::make('Informations')
                             ->columns(2)
                             ->schema([
                                 Forms\Components\TextInput::make('id')
                                     ->default('OR-' . random_int(100000, 999999))
-                                    ->label('Order ID')
+                                    ->label('Commande ID')
                                     ->disabled()
                                     ->required()
                                     ->dehydrated()
@@ -77,22 +79,25 @@ class OrderResource extends Resource
                             ]),
 
 
-                        Forms\Components\Section::make('Client & Leader')
+                        Forms\Components\Section::make('Client et Chef d\'Atelier')
                             ->columns(2)
                             ->schema([
                                 Forms\Components\Select::make('leader_id')
+                                    ->label('Chef d\'Atelier')
                                     ->relationship('leader', 'name')
                                     ->searchable()
                                     ->required(),
 
 
                                 Forms\Components\Select::make('client_id')
+                                    ->label('Client')
                                     ->relationship('client', 'name')
                                     ->searchable()
                                     ->required()
                                     ->createOptionForm([
 
                                         Forms\Components\TextInput::make('id')
+                                            ->label('Client ID')
                                             ->default('CL-' . random_int(100000, 999999))
                                             ->disabled()
                                             ->required()
@@ -100,10 +105,12 @@ class OrderResource extends Resource
                                             ->maxLength(32)
                                             ->unique(Client::class, 'id', ignoreRecord: true),
                                         Forms\Components\TextInput::make('name')
+                                            ->label('Nom')
                                             ->required()
                                             ->maxLength(255),
 
                                         Forms\Components\Select::make('type')
+                                            ->label('Type')
                                             ->placeholder('Select type')
                                             ->options([
                                                 'particulier' => 'Particulier',
@@ -160,7 +167,6 @@ class OrderResource extends Resource
             ]);
     }
 
-
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
@@ -169,21 +175,24 @@ class OrderResource extends Resource
                     ->columns(3)
                     ->schema([
                         Infolists\Components\TextEntry::make('id')
-                            ->label('Order ID'),
+                            ->label('Commande ID'),
                         Infolists\Components\TextEntry::make('client.name')
                             ->label('Client'),
                         Infolists\Components\TextEntry::make('created_at')
                             ->dateTime()
-                            ->label('Created at'),
+                            ->label('Créé le'),
                         Infolists\Components\TextEntry::make('status')
                             ->badge('Status'),
                         Infolists\Components\TextEntry::make('leader.name')
-                            ->label('Leader'),
+                            ->label('Chef d\'Atelier'),
                         Infolists\Components\TextEntry::make('updated_at')
                             ->dateTime()
-                            ->label('Last modified at'),
+                            ->label('Dernière modification'),
                     ])
             ]);
+
+          
+
     }
 
     public static function table(Table $table): Table
@@ -191,22 +200,22 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('Order ID')
+                    ->label('Commande ID')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('client.name')
                     ->label('Client')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('leader.name')
-                    ->label('Leader')
+                    ->label("Chef d'Atelier")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created at')
+                    ->label('Créé le')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Last modified at')
+                    ->label('Dernière modification')
                     ->searchable()
                     ->sortable(),
 
@@ -216,13 +225,16 @@ class OrderResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Modifier'),
+                Tables\Actions\ViewAction::make()
+                    ->label('Voir'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Supprimer'),
+                ])->label('Action groupé'),
             ]);
     }
 

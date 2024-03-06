@@ -8,21 +8,21 @@ use Filament\Support\Contracts\HasLabel;
 
 enum OrderStatus: string implements HasColor, HasIcon, HasLabel
 {
-    case New = 'new';
+    case New = 'nouveaux';
 
-    case Processing = 'processing';
+    case Processing = 'en cours de fabrication';
 
-    case Shipped = 'shipped';
+    case Shipped = 'livrés';
 
-    case Cancelled = 'cancelled';
+    case Cancelled = 'annulés';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::New => 'New',
-            self::Processing => 'Processing',
-            self::Shipped => 'Shipped',
-            self::Cancelled => 'Cancelled',
+            self::New => 'Nouveaux',
+            self::Processing => 'En cours de fabrication',
+            self::Shipped => 'Livrés',
+            self::Cancelled => 'Annulés',
         };
     }
 

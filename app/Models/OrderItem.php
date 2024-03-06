@@ -10,7 +10,7 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-     public $incrementing = false;
+    public $incrementing = false;
     protected $keyType = 'string';
 
     public function worker(): BelongsTo
@@ -26,5 +26,16 @@ class OrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+
+    // restore stock quantity when an order item is deleted
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($order) {
+            $order->product->increment('stockQty', $order->quantity);
+        });
     }
 }

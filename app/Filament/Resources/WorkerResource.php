@@ -22,7 +22,8 @@ class WorkerResource extends Resource
 {
     protected static ?string $model = Worker::class;
 
-    // protected static ?string $navigationGroup = 'Workers';
+    protected static ?string $modelLabel = 'employés';
+
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
@@ -35,6 +36,7 @@ class WorkerResource extends Resource
                     ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('id')
+                            ->label('Employé ID')
                             ->default('WR-' . random_int(100000, 999999))
                             ->disabled()
                             ->required()
@@ -42,10 +44,12 @@ class WorkerResource extends Resource
                             ->maxLength(32)
                             ->unique(Worker::class, 'id', ignoreRecord: true),
                         Forms\Components\TextInput::make('name')
+                            ->label('Nom')
                             ->required()
                             ->maxLength(255)
                             ->unique(Worker::class, 'id'),
                         Forms\Components\TextInput::make('phone')
+                            ->label('Téléphone')
                             ->columnSpan(2)
                             ->tel()
                             ->required()
@@ -61,7 +65,7 @@ class WorkerResource extends Resource
                             ->placeholder('Select role de worker')
                             ->options([
                                 'chauffeur' => 'Chauffeur',
-                                'employee' => 'Employee',
+                                'employee' => 'Employée',
                                 'chefatelier' => "Chef d'Aterlier",
                                 'magasinier' => 'Magasinier',
                                 'montage' => 'Montage',
@@ -114,25 +118,29 @@ class WorkerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->label('Employé ID')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nom')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
+                    ->label('Role')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Téléphone')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('state')
+                Tables\Columns\TextColumn::make('wilaya')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('city')
+                Tables\Columns\TextColumn::make('commune')
                     ->searchable()
                     ->toggleable(),
             ])
@@ -140,12 +148,14 @@ class WorkerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Modifier'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Supprimer'),
+                ])->label('Action groupé'),
             ]);
     }
 

@@ -19,6 +19,9 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
+    protected static ?string $modelLabel = 'Produits';
+
+
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
@@ -28,8 +31,8 @@ class ProductResource extends Resource
                 Forms\Components\Section::make('Info')
                     ->schema([
                         Forms\Components\TextInput::make('id')
+                            ->label('Produit ID')
                             ->default('PR-' . random_int(100000, 999999))
-                            ->label('Product ID')
                             ->disabled()
                             ->required()
                             ->dehydrated()
@@ -39,11 +42,13 @@ class ProductResource extends Resource
                             ->columns(2)
                             ->schema([
                                 Forms\Components\TextInput::make('name')
+                                    ->label('Nom')
                                     ->required()
                                     ->maxLength(255)
                                     ->unique(Product::class, 'id'),
 
                                 Forms\Components\TextInput::make('price')
+                                    ->label('Prix')
                                     ->type('number')
                                     ->required()
                             ]),
@@ -51,10 +56,11 @@ class ProductResource extends Resource
                             ->columns(2)
                             ->schema([
                                 Forms\Components\Select::make('category')
+                                    ->label('Catégorie')
                                     ->reactive(function (callable $set) {
                                         $set('model', null); // Clear city selection on state change
                                     })
-                                    ->placeholder('Select a category')
+                                    ->placeholder('Selectionner la catégorie')
                                     ->native(false)
                                     ->selectablePlaceholder(false)
                                     ->searchable()
@@ -64,7 +70,7 @@ class ProductResource extends Resource
                                     ->required(),
 
                                 Forms\Components\Select::make('model')
-                                    ->placeholder('Select a model')
+                                    ->placeholder('Selectionner le modèle')
                                     ->native(false)
                                     ->selectablePlaceholder(false)
                                     ->searchable()
@@ -81,15 +87,17 @@ class ProductResource extends Resource
                             ->columns(2)
                             ->schema([
                                 Forms\Components\TextInput::make('minimalStockQty')
+                                    ->label('Quantité minimale')
                                     ->type('number')
                                     ->required(),
                                 Forms\Components\TextInput::make('stockQty')
+                                    ->label('Quantité en stock')
                                     ->type('number')
                                     ->required(),
                             ]),
                     ]),
 
-                Forms\Components\Section::make('Image and Description')
+                Forms\Components\Section::make('Image et Description')
                     ->schema([
                         Forms\Components\Group::make()
                             ->columns(2)
@@ -113,23 +121,28 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->label('Produit ID')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nom')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
+                    ->label('Prix')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category')
+                    ->label('Catégorie')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('model')
+                    ->label('Modèle')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('minimalStockQty'),
-                Tables\Columns\TextColumn::make('stockQty'),
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('stockQty')
+                    ->label('Quantité en stock'),
                 Tables\Columns\ImageColumn::make('image')
+                    ->label('Image')
 
 
             ])
@@ -137,12 +150,14 @@ class ProductResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Modifier'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Supprimer'),
+                ])->label('Action groupé'),
             ]);
     }
 

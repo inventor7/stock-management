@@ -35,6 +35,7 @@ class ClientResource extends Resource
                         Forms\Components\Section::make('Details')
                             ->schema([
                                 Forms\Components\TextInput::make('id')
+                                    ->label('Client ID')
                                     ->default('CL-' . random_int(100000, 999999))
                                     ->disabled()
                                     ->required()
@@ -42,18 +43,20 @@ class ClientResource extends Resource
                                     ->maxLength(32)
                                     ->unique(Client::class, 'id', ignoreRecord: true),
                                 Forms\Components\TextInput::make('name')
+                                    ->label('Nom')
                                     ->required()
                                     ->maxLength(255)
                                     ->unique(Client::class, 'id'),
                                 Forms\Components\TextInput::make('phone')
+                                    ->label('Téléphone')
                                     ->tel()
                                     ->required()
                                     ->unique(Client::class, 'phone'),
                                 Forms\Components\Select::make('type')
-                                    ->placeholder('Select type de client')
+                                    ->placeholder('Selectioner le type')
                                     ->options([
                                         'particulier' => 'Particulier',
-                                        'company' => 'Company',
+                                        'company' => 'Entreprise'
                                     ])
                                     ->default('company')
                                     ->native(false),
@@ -74,7 +77,7 @@ class ClientResource extends Resource
 
                                 Forms\Components\Select::make('wilaya')
                                     ->label('Wilaya')
-                                    ->placeholder('Select city')
+                                    ->placeholder('Selectionner la wilaya')
                                     ->native(false)
                                     ->selectablePlaceholder(false)
                                     ->searchable()
@@ -82,7 +85,7 @@ class ClientResource extends Resource
                                     ->required(),
 
                                 Forms\Components\Select::make('commune')
-                                    ->placeholder('Select city')
+                                    ->placeholder('Selectionner la commune')
                                     ->native(false)
                                     ->selectablePlaceholder(false)
                                     ->searchable()
@@ -117,21 +120,24 @@ class ClientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->label('Client ID')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nom')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Téléphone')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('state')
+                Tables\Columns\TextColumn::make('wilaya')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('city')
+                Tables\Columns\TextColumn::make('commune')
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('type')

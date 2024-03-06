@@ -10,10 +10,14 @@ class EditClient extends EditRecord
 {
     protected static string $resource = ClientResource::class;
 
+    protected static ?string $title = 'Modifier le client';
+
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+            ->label('Supprimer le client'),
         ];
     }
 }

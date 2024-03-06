@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
 
-     public $incrementing = false;
+    public $incrementing = false;
     protected $keyType = 'string';
 
     use HasFactory;
@@ -30,5 +30,16 @@ class Order extends Model
     public function orderitems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+
+    // delete order items when an order is deleted (also because when every order item is deleted, the product stock quantity is restored)
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($order) {
+            $order->orderitems->each->delete();
+        });
     }
 }
