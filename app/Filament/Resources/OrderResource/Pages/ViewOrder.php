@@ -24,6 +24,4 @@ class ViewOrder extends ViewRecord
     }
 
 
-
-
 }

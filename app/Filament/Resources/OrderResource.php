@@ -70,11 +70,11 @@ class OrderResource extends Resource
                                     ->maxLength(32)
                                     ->unique(Order::class, 'id', ignoreRecord: true),
 
-
                                 Forms\Components\ToggleButtons::make('status')
                                     ->inline()
                                     ->options(OrderStatus::class)
                                     ->required(),
+
 
                             ]),
 
@@ -182,6 +182,8 @@ class OrderResource extends Resource
                             ->dateTime()
                             ->label('Créé le'),
                         Infolists\Components\TextEntry::make('status')
+                            ->color(fn (string $state): string => OrderStatus::from($state)->getColor())
+                            ->icon(fn (string $state): string => OrderStatus::from($state)->getIcon())
                             ->badge('Status'),
                         Infolists\Components\TextEntry::make('leader.name')
                             ->label('Chef d\'Atelier'),
@@ -190,9 +192,6 @@ class OrderResource extends Resource
                             ->label('Dernière modification'),
                     ])
             ]);
-
-          
-
     }
 
     public static function table(Table $table): Table
@@ -209,6 +208,8 @@ class OrderResource extends Resource
                     ->label("Chef d'Atelier")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->color(fn (string $state): string => OrderStatus::from($state)->getColor())
+                    ->icon(fn (string $state): string => OrderStatus::from($state)->getIcon())
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Créé le')
@@ -226,9 +227,9 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->label('Modifier'),
+                    ->label(''),
                 Tables\Actions\ViewAction::make()
-                    ->label('Voir'),
+                    ->label('')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -236,6 +237,14 @@ class OrderResource extends Resource
                         ->label('Supprimer'),
                 ])->label('Action groupé'),
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        /** @var class-string<Model> $modelClass */
+        $modelClass = static::$model;
+
+        return (string) $modelClass::where('status', 'processing')->count();
     }
 
     public static function getRelations(): array

@@ -74,7 +74,28 @@ class OrderitemsRelationManager extends RelationManager
             ]);
     }
 
- 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('product.name')
+                    ->label('Produit'),
+                Infolists\Components\TextEntry::make('quantity')
+                    ->label('Quantité'),
+                Infolists\Components\TextEntry::make('worker.name')
+                    ->label('Pris par'),
+                Infolists\Components\TextEntry::make('created_at')
+                    ->label('Créé le')
+                    ->dateTime(),
+
+            ]);
+    }
+
 
     public function table(Table $table): Table
     {
@@ -106,12 +127,13 @@ class OrderitemsRelationManager extends RelationManager
                     })
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Modifier'),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Supprimer'),
                 Tables\Actions\ViewAction::make()
                     ->label(''),
+                Tables\Actions\EditAction::make()
+                    ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
