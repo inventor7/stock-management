@@ -13,6 +13,8 @@ use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\VéhiculeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use App\Filament\Resources\VéhiculeResource\RelationManagers;
 
 class VéhiculeResource extends Resource
@@ -58,6 +60,11 @@ class VéhiculeResource extends Resource
                     ->columns(2)
                     ->columnSpan('full')
                     ->schema([
+                        Forms\Components\TextInput::make('kilometrage')
+                            ->columnSpan(2)
+                            ->numeric()
+                            ->label('Kilométrage')
+                            ->required(),
                         Forms\Components\TextInput::make('cp')
                             ->numeric()
                             ->suffix('mois')
@@ -72,6 +79,42 @@ class VéhiculeResource extends Resource
                             ->required(),
                     ])
 
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                InfoLists\Components\Section::make()
+                    ->columns(2)
+                    ->schema([
+                        Infolists\Components\TextEntry::make('nom')
+                            ->label('Nom'),
+                        Infolists\Components\TextEntry::make('année')
+                            ->label('Année'),
+                        Infolists\Components\TextEntry::make('status')
+                            ->color(fn (string $state): string => VéhiculeStatus::from($state)->getColor())
+                            ->icon(fn (string $state): string => VéhiculeStatus::from($state)->getIcon())
+                            ->badge('Status'),
+                        Infolists\Components\TextEntry::make('chauffeur.name')
+                            ->label('Chauffeur'),
+                        Infolists\Components\TextEntry::make('cp')
+                            ->suffix(' mois')
+                            ->prefix('Chaque ')
+                            ->label('Contrôle technique Périodique'),
+                        Infolists\Components\TextEntry::make('vp')
+                            ->suffix(' KM')
+                            ->prefix('Chaque ')
+                            ->label('Vidange Périodique'),
+                        Infolists\Components\TextEntry::make('kilometrage')
+                            ->suffix(' KM')
+                            ->label('Kilométrage'),
+                        Infolists\Components\TextEntry::make('updated_at')
+                            ->label('Modifié le')
+                            ->dateTime(),
+
+                    ]),
             ]);
     }
 
@@ -96,7 +139,12 @@ class VéhiculeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label(''),
+                Tables\Actions\DeleteAction::make()
+                    ->label(''),
+                Tables\Actions\ViewAction::make()
+                    ->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -118,6 +166,7 @@ class VéhiculeResource extends Resource
             'index' => Pages\ListVéhicules::route('/'),
             'create' => Pages\CreateVéhicule::route('/create'),
             'edit' => Pages\EditVéhicule::route('/{record}/edit'),
+            'view' => Pages\ViewVéhicule::route('/{record}'),
         ];
     }
 }

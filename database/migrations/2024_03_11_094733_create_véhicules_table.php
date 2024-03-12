@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('vp');
             $table->string('chauffeur_id')->nullable()->default(null);
             $table->foreign('chauffeur_id')->references('id')->on('workers');
+            $table->integer('kilometrage');
             $table->timestamps();
         });
     }

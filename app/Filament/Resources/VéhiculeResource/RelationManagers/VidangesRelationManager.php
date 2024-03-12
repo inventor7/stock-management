@@ -32,21 +32,25 @@ class VidangesRelationManager extends RelationManager
                     ->required()
                     ->dehydrated()
                     ->unique(Vidange::class, 'id', ignoreRecord: true),
+
                 Forms\Components\TextInput::make('ancien_km')
                     ->label('Ancien Kilométrage')
                     ->numeric()
                     ->live(onBlur: true)
                     ->afterStateUpdated(
-                        function (Set $set, Get $get, ?string $state,Model $model) {
-                            dd($model);
+                        function (Set $set, Get $get, ?string $state) {
+                            $vp = $this->getOwnerRecord()->vp;
+                            $futur_km = $get('ancien_km') + $vp;
+                            $set('futur_km', $futur_km);
                         }
                     )
                     ->required(),
+
                 Forms\Components\TextInput::make('futur_km')
                     ->label('Futur Kilométrage')
                     ->numeric()
-                    ->disabled()
-                    ->required(),
+                    ->readonly(),
+
                 Forms\Components\Textarea::make('note')
                     ->label('Note')
                     ->columnSpan(3)
@@ -57,21 +61,42 @@ class VidangesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->columns([])
+            ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Date de Création'),
+                Tables\Columns\TextColumn::make('ancien_km')
+                    ->label('Ancien Kilométrage')
+                    ->suffix(' KM'),
+                Tables\Columns\TextColumn::make('futur_km')
+                    ->label('Futur Kilométrage')
+                    ->suffix(' KM'),
+
+            ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+
+
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                ->label(''),
+                Tables\Actions\DeleteAction::make()
+                ->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

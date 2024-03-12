@@ -12,11 +12,12 @@ use App\Models\Worker;
 use App\Models\Product;
 use Filament\Forms\Get;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Forms\Form;
 use App\Models\OrderItem;
 use App\Enums\OrderStatus;
 use Filament\Tables\Table;
-use Filament\Infolists\Infolist;
+
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 use Filament\Forms\Components\Wizard;

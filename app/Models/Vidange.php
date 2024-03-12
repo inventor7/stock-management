@@ -13,8 +13,18 @@ class Vidange extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    public function véhicule() : BelongsTo
+    public function véhicule(): BelongsTo
     {
         return $this->belongsTo(Véhicule::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($vidange) {
+            $véhicule = $vidange->véhicule;
+            $véhicule->update(['kilometrage' => $vidange->ancien_km]);
+        });
     }
 }
