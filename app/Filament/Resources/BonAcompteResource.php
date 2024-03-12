@@ -25,6 +25,8 @@ class BonAcompteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
+    protected static ?string $modelLabel = 'Acomptes';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -119,14 +121,17 @@ class BonAcompteResource extends Resource
     {
         return $infolist
             ->schema([
-                Infolists\Components\TextEntry::make('id')
-                    ->label('Bon Acompte ID'),
-                Infolists\Components\TextEntry::make('created_at')
-                    ->label('Créé le')
-                    ->dateTime(),
-                Infolists\Components\TextEntry::make('updated_at')
-                    ->label('Dernière modification')
-                    ->dateTime(),
+                InfoLists\Components\Section::make('')
+                    ->columns(2)
+                    ->schema([
+                        Infolists\Components\TextEntry::make('id')
+                            ->label('Bon Acompte ID'),
+
+                        Infolists\Components\TextEntry::make('created_at')
+                            ->label('Créé le')
+                            ->dateTime(),
+
+                    ])
             ]);
     }
 

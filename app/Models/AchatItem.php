@@ -10,14 +10,26 @@ class AchatItem extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
 
-    public function bonDAchat(): BelongsTo
+    public function achat(): BelongsTo
     {
-        return $this->belongsTo(BonDAchat::class, 'achat_id');
+        return $this->belongsTo(Achat::class);
+    }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($achatItem) {
+            $achatItem->product->increment('stockQty', $achatItem->quantity);
+        });
     }
 }

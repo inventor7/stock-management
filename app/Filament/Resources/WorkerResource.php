@@ -117,10 +117,6 @@ class WorkerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('Employé ID')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nom')
                     ->sortable()

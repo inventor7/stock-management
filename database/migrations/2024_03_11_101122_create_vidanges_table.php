@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('achats', function (Blueprint $table) {
+        Schema::create('vidanges', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->decimal('price')->nullable()->default(null);
-            $table->string('fournisseur')->nullable()->default(null);
-            $table->string('chauffeur_id');
-            $table->foreign('chauffeur_id')->references('id')->on('workers');
+            $table->string('véhicule_id');
+            $table->foreign('véhicule_id')->references('id')->on('véhicules');
+            $table->integer('ancien_km');
+            $table->integer('futur_km');
+            $table->string('note')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('achats');
+        Schema::dropIfExists('vidanges');
     }
 };

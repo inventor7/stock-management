@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// pdf generator with laravel invoices
+Route::get('/{record}/pdf/download', [InvoiceController::class, 'download'])->name('order.pdf.download');
+Route::get('/{record}/pdf', [InvoiceController::class, 'viewPdf'])->name('order.pdf');

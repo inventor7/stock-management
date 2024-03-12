@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('achat_items', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->integer('quantity');
-            $table->timestamp('date');
-            $table->boolean('isValid');
             $table->string('product_id');
-            $table->string('achat_id');
+            $table->string('achat_id')->nullable()->default(null);  
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('achat_id')->references('id')->on('achats');
             $table->timestamps();

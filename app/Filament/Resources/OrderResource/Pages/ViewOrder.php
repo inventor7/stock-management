@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\OrderResource\Pages;
 
-use App\Filament\Resources\OrderResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ViewRecord;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Button;
-
+use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\OrderResource;
+use App\Models\Order;
 
 class ViewOrder extends ViewRecord
 {
@@ -20,8 +21,11 @@ class ViewOrder extends ViewRecord
         return [
             Actions\EditAction::make()
                 ->label('Modifier'),
+            Action::make('download')
+                ->label('Télécharger')
+                ->icon('heroicon-o-document-arrow-down')
+                ->openUrlInNewTab(true)
+                ->url(fn (Order $record) => route('order.pdf', $record)),
         ];
     }
-
-
 }

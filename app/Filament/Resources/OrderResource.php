@@ -8,14 +8,15 @@ use App\Enums\States;
 use App\Models\Order;
 use App\Models\Adress;
 use App\Models\Client;
+use App\Models\Worker;
 use App\Models\Product;
 use Filament\Forms\Get;
+use Filament\Infolists;
 use Filament\Forms\Form;
 use App\Models\OrderItem;
 use App\Enums\OrderStatus;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
-use Filament\Infolists;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 use Filament\Forms\Components\Wizard;
@@ -74,8 +75,6 @@ class OrderResource extends Resource
                                     ->inline()
                                     ->options(OrderStatus::class)
                                     ->required(),
-
-
                             ]),
 
 
@@ -84,7 +83,7 @@ class OrderResource extends Resource
                             ->schema([
                                 Forms\Components\Select::make('leader_id')
                                     ->label('Chef d\'Atelier')
-                                    ->relationship('leader', 'name')
+                                    ->options(Worker::query()->where('role', 'chefatelier')->get()->pluck('name', 'id'))
                                     ->searchable()
                                     ->required(),
 
@@ -212,15 +211,9 @@ class OrderResource extends Resource
                     ->icon(fn (string $state): string => OrderStatus::from($state)->getIcon())
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
                     ->label('Créé le')
-                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Dernière modification')
-                    ->searchable()
-                    ->sortable(),
-
-
             ])
             ->filters([
                 //
@@ -229,7 +222,12 @@ class OrderResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->label(''),
                 Tables\Actions\ViewAction::make()
+                    ->label(''),
+                Tables\Actions\Action::make('download')
                     ->label('')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn (Order $record) => route('order.pdf', $record))
+                    ->openUrlInNewTab(true),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
