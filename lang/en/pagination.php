@@ -14,6 +14,7 @@ return [
     */
 
     'previous' => '&laquo; Previous',
+    'create' => 'Create',
     'next' => 'Next &raquo;',
 
 ];

@@ -157,6 +157,7 @@ class VéhiculeResource extends Resource
     {
         return [
             RelationManagers\VidangesRelationManager::class,
+            RelationManagers\ControleTechniquesRelationManager::class,
         ];
     }
 

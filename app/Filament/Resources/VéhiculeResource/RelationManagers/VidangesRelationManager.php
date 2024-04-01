@@ -64,7 +64,8 @@ class VidangesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->label('Date de Création'),
+                    ->sortable()
+                    ->label('Date'),
                 Tables\Columns\TextColumn::make('ancien_km')
                     ->label('Ancien Kilométrage')
                     ->suffix(' KM'),

@@ -15,8 +15,9 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('véhicule_id');
             $table->foreign('véhicule_id')->references('id')->on('véhicules');
-            $table->integer('ancien_controle');
-            $table->integer('futur_controle');
+            $table->date('ancien_controle');
+            $table->date('futur_controle');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

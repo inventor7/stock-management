@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\InvoiceController;
 
 /*
@@ -18,6 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// pdf generator with laravel invoices
-Route::get('/{record}/pdf/download', [InvoiceController::class, 'download'])->name('order.pdf.download');
-Route::get('/{record}/pdf', [InvoiceController::class, 'viewPdf'])->name('order.pdf');
+Route::get('/bonacompte/pdf/{record}', [PdfController::class, 'bonAcomptePdf'])->name('bonacompte.pdf');
+

@@ -14,12 +14,12 @@ class véhicule extends Model
     protected $keyType = 'string';
 
 
-    public function controleTechnique() : HasMany
+    public function controle_techniques(): HasMany
     {
         return $this->hasMany(ControleTechnique::class);
     }
 
-    public function vidange() : HasMany
+    public function vidange(): HasMany
     {
         return $this->hasMany(Vidange::class);
     }

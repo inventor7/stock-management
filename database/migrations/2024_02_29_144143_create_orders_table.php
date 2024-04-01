@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('adress');
             $table->string('wilaya');
             $table->string('commune');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->string('client_id');
             $table->string('leader_id');
             $table->foreign('client_id')->references('id')->on('clients');

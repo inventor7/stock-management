@@ -32,32 +32,29 @@ class BonAcompteResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\Section::make('Informations')
+
+                Forms\Components\Hidden::make('id')
+                    ->default('BAC-' . random_int(100000, 999999))
+                    ->label('Bon Acompte ID')
+                    ->disabled()
+                    ->columnSpan(2)
+                    ->required()
+                    ->dehydrated()
+                    ->unique(BonAcompte::class, 'id', ignoreRecord: true),
+
+                Forms\Components\Section::make()
                     ->columns(2)
                     ->schema([
-                        Forms\Components\TextInput::make('id')
-                            ->default('BAC-' . random_int(100000, 999999))
-                            ->label('Bon Acompte ID')
-                            ->disabled()
-                            ->columnSpan(2)
-                            ->required()
-                            ->dehydrated()
-                            ->maxLength(32)
-                            ->unique(BonAcompte::class, 'id', ignoreRecord: true),
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('Créé le')
+                            ->content(fn (BonAcompte $record): ?string => $record->created_at?->diffForHumans()),
 
-                        Forms\Components\Section::make()
-                            ->columns(2)
-                            ->schema([
-                                Forms\Components\Placeholder::make('created_at')
-                                    ->label('Créé le')
-                                    ->content(fn (BonAcompte $record): ?string => $record->created_at?->diffForHumans()),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('Dernière modification')
+                            ->content(fn (BonAcompte $record): ?string => $record->updated_at?->diffForHumans()),
+                    ])
+                    ->hidden(fn (?BonAcompte $record) => $record === null),
 
-                                Forms\Components\Placeholder::make('updated_at')
-                                    ->label('Dernière modification')
-                                    ->content(fn (BonAcompte $record): ?string => $record->updated_at?->diffForHumans()),
-                            ])
-                            ->hidden(fn (?BonAcompte $record) => $record === null),
-                    ]),
 
                 Repeater::make('acomptes')
                     ->relationship()
@@ -83,6 +80,7 @@ class BonAcompteResource extends Resource
 
                         Forms\Components\TextInput::make('amount')
                             ->label('Montant')
+                            ->suffix('DZD')
                             ->required()
                             ->numeric(),
                     ])

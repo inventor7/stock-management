@@ -63,17 +63,17 @@ class OrderResource extends Resource
                         Forms\Components\Section::make('Informations')
                             ->columns(2)
                             ->schema([
-                                Forms\Components\TextInput::make('id')
+                                Forms\Components\Hidden::make('id')
                                     ->default('OR-' . random_int(100000, 999999))
                                     ->label('Commande ID')
                                     ->disabled()
                                     ->required()
                                     ->dehydrated()
-                                    ->maxLength(32)
                                     ->unique(Order::class, 'id', ignoreRecord: true),
 
                                 Forms\Components\ToggleButtons::make('status')
                                     ->inline()
+                                    ->columnSpan(2)
                                     ->options(OrderStatus::class)
                                     ->required(),
                             ]),
