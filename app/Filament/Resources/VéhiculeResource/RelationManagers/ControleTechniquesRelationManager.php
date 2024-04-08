@@ -8,11 +8,12 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Illuminate\Support\Number;
 use App\Models\ControleTechnique;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
-use Illuminate\Support\Number;
 
 class ControleTechniquesRelationManager extends RelationManager
 {
@@ -33,28 +34,34 @@ class ControleTechniquesRelationManager extends RelationManager
 
                 Forms\Components\DatePicker::make('ancien_controle')
                     ->label('Ancien Controle')
-
+                    ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
+                    ->native(false)
                     ->live(onBlur: true)
                     ->afterStateUpdated(
                         function (Set $set, Get $get, ?string $state) {
                             $cp = $this->getOwnerRecord()->cp;
                             $ancien_controll = new \DateTime($get('ancien_controle'));
-                            $futur_controll = $ancien_controll->add(new \DateInterval('P' . $cp . 'M'))->format('Y-m-d');
-                            $set('futur_controle', $futur_controll);
+                            $futur_controll = clone $ancien_controll;
+                            $futur_controll->add(new \DateInterval('P' . $cp . 'M'));
+                            $set('futur_controle', $futur_controll->format('Y-m-d'));
                         }
                     )
+                    ->closeOnDateSelection()
                     ->required(),
 
-                Forms\Components\DatePicker::make('ancien_controle')
+                Forms\Components\DatePicker::make('futur_controle')
                     ->label('Futur Controle')
-
+                    ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
+                    ->native(false)
                     ->readonly(),
 
                 Forms\Components\Textarea::make('note')
                     ->label('Note')
-                    ->columnSpan(3)
+                    ->default(NULL)
+                    ->columnSpan(['default' => 1, 'sm' => 4, 'xl' => 8])
                     ->rows(2),
-            ]);
+            ])
+            ->columns(['default' => 1, 'sm' => 4, 'xl' => 8]);
     }
 
     public function table(Table $table): Table
@@ -62,7 +69,19 @@ class ControleTechniquesRelationManager extends RelationManager
         return $table
 
             ->columns([
-                Tables\Columns\TextColumn::make('véhicule_id'),
+                Tables\Columns\TextColumn::make('ancien_controle')
+                    ->dateTime()
+
+                    ->label('Ancien Controle'),
+
+                Tables\Columns\TextColumn::make('futur_controle')
+                    ->dateTime()
+                    ->label('Futur Controle'),
+
+
+                Tables\Columns\TextColumn::make('note')
+                    ->label('Note'),
+
             ])
             ->filters([
                 //
@@ -79,5 +98,10 @@ class ControleTechniquesRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public function isReadOnly(): bool
+    {
+        return false;
     }
 }

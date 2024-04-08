@@ -19,5 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/bonacompte/pdf/{record}', [PdfController::class, 'bonAcomptePdf'])->name('bonacompte.pdf');
 
+Route::get('/download/{order}', [PdfController::class, 'download'])->name('order.download');

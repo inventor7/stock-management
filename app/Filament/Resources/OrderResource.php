@@ -126,14 +126,15 @@ class OrderResource extends Resource
 
 
                         Forms\Components\Section::make('Address')
-                            ->columns(2)
+                            ->columns(3)
                             ->schema([
                                 Forms\Components\TextInput::make('adress')
-                                    ->columnSpan(2)
+                                    ->columnSpan(['default' => 1, 'sm' => 4, 'xl' => 8])
                                     ->required()
                                     ->maxLength(255),
 
                                 Forms\Components\Select::make('wilaya')
+                                    ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
                                     ->label('Wilaya')
                                     ->placeholder('Select city')
                                     ->native(false)
@@ -143,6 +144,7 @@ class OrderResource extends Resource
                                     ->required(),
 
                                 Forms\Components\Select::make('commune')
+                                    ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
                                     ->placeholder('Select city')
                                     ->native(false)
                                     ->selectablePlaceholder(false)
@@ -151,7 +153,8 @@ class OrderResource extends Resource
                                     ->required(),
 
 
-                            ]),
+                            ])
+                            ->columns(['default' => 1, 'sm' => 4, 'xl' => 8]),
 
 
                         Forms\Components\Section::make('Note')
@@ -227,7 +230,7 @@ class OrderResource extends Resource
                 Tables\Actions\Action::make('download')
                     ->label('')
                     ->icon('heroicon-o-document-arrow-down')
-                    ->url(fn (Order $record) => route('order.pdf', $record))
+                    ->url(fn (Order $record) => route('order.download', $record))
                     ->openUrlInNewTab(true),
             ])
             ->bulkActions([

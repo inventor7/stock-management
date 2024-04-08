@@ -25,7 +25,6 @@ class ViewOrder extends ViewRecord
                 ->label('Télécharger')
                 ->icon('heroicon-o-document-arrow-down')
                 ->openUrlInNewTab(true)
-                ->url(fn (Order $record) => route('order.pdf', $record)),
         ];
     }
 }

@@ -44,18 +44,21 @@ class VidangesRelationManager extends RelationManager
                             $set('futur_km', $futur_km);
                         }
                     )
+                    ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
                     ->required(),
 
                 Forms\Components\TextInput::make('futur_km')
                     ->label('Futur Kilométrage')
+                    ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
                     ->numeric()
                     ->readonly(),
 
                 Forms\Components\Textarea::make('note')
                     ->label('Note')
-                    ->columnSpan(3)
-                    ->rows(2),
-            ]);
+                    ->rows(2)
+                    ->columnSpan(['default' => 1, 'sm' => 4, 'xl' => 8]),
+            ])
+            ->columns(['default' => 1, 'sm' => 4, 'xl' => 8]);;
     }
 
     public function table(Table $table): Table
@@ -84,9 +87,9 @@ class VidangesRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->label(''),
+                    ->label(''),
                 Tables\Actions\DeleteAction::make()
-                ->label(''),
+                    ->label(''),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
