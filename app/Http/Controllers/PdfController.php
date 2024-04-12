@@ -22,6 +22,8 @@ class PdfController extends Controller
         //for each order item, attach the product to it
         foreach ($order->orderitems as $orderitem) {
             $orderitem->product = Order::with('orderitems.product')->where('id', $order->id)->first()->orderitems->where('id', $orderitem->id)->first()->product;
+            $orderitem->cost = $orderitem->product->price *  $orderitem->quantity;
+            $order->total = $orderitem->cost + $order->total;
         }
         return Pdf::view('pdfs.orderPdf', ['data' => $order, 'title' => 'de Commande'])
             ->format('a4')

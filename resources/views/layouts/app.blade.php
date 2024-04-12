@@ -15,7 +15,7 @@
         src ="{{ asset('assets/MondialLogo.png') }}" />
 
     <div class="container  space-y-12 ">
-        <header class="mt-28 space-y-12 ">
+        <header class="mt-8 space-y-12 ">
             <div class="flex flex-row justify-between items-start w-full  h-20  ">
                 <div class="flex flex-row justify-start items-center gap-2  w-full text-gray-500 ">
                     <img class=" object-cover h-16  " src ="{{ asset('assets/MondialLogo.png') }}" />
@@ -27,12 +27,12 @@
                     </div>
                 </div>
                 <div class="flex flex-col justify-end items-end w-full gap-2 ">
-                    <p class=""> Date: {{ now()->format('d/m/Y') }}</p>
-                    <p class="">Bon Ref : {{ $ref }}</p>
+                    <p class=" text-sm"> Date d'expo: {{ now()->format('d/m/Y') }}</p>
+
 
                 </div>
             </div>
-                        <h1 class="text-3xl text-center font-bold whitespace-nowrap  "> Bon {{ $title }} </h1>
+            <h1 class="text-3xl text-center font-bold whitespace-nowrap  "> Bon {{ $title }} </h1>
 
         </header>
         <main>

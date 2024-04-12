@@ -10,6 +10,9 @@ class BonDeLivraison extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'order_id');
