@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Achat;
 use App\Models\Order;
 use App\Models\Adress;
 use App\Models\Client;
@@ -10,7 +11,7 @@ use Spatie\LaravelPdf\Facades\Pdf;
 
 class PdfController extends Controller
 {
-    public function download(Order $order)
+    public function downloadOrder(Order $order)
     {
         //attach more vars to the $order like client using relations in the order model with optimizatioon when seraching the order like limit(1)
 
@@ -28,5 +29,26 @@ class PdfController extends Controller
         return Pdf::view('pdfs.orderPdf', ['data' => $order, 'title' => 'de Commande'])
             ->format('a4')
             ->name('Order-' . $order->id . '-pdf');
+    }
+
+
+
+    public function downloadAchat(Achat $achat)
+    {
+        //attach more vars to the $order like client using relations in the order model with optimizatioon when seraching the order like limit(1)
+
+        $achat->client = Achat::with('fournisseur')->where('id', $achat->id)->first()->fournisseur;
+        $achat->leader = Achat::with('chauffeur')->where('id', $achat->id)->first()->chauffeur;
+        $achat->achatitems = Achat::with('achatitems')->where('id', $achat->id)->first()->achatitems;
+
+        //for each order item, attach the product to it
+        foreach ($achat->achatitems as $achatitem) {
+            $achatitem->product = Achat::with('achatitems.product')->where('id', $achat->id)->first()->achatitems->where('id', $achatitem->id)->first()->product;
+            $achatitem->cost = $achatitem->product->price *  $achatitem->quantity;
+            $achat->total = $achatitem->cost + $achat->total;
+        }
+        return Pdf::view('pdfs.achatPdf', ['data' => $achat, 'title' => "d'Achat"])
+            ->format('a4')
+            ->name('Achat-' . $achat->id . '-pdf');
     }
 }

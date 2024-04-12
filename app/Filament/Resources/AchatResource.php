@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AchatResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AchatResource\RelationManagers;
-
+use Filament\Forms\Components\Tabs\Tab;
 
 class AchatResource extends Resource
 {
@@ -123,22 +123,28 @@ class AchatResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('Achat ID')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('chauffeur.name')
                     ->label('Chauffeur')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('bon_achat_date')
+                    ->label('Date de bon d\'achat')
                     ->searchable()
+                    ->dateTime('D M Y')
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('payment_status')
+                    ->label('Statut de paiement'),
+
 
                 Tables\Columns\TextColumn::make('price')
                     ->label('Montant')
                     ->suffix(' DZD')
                     ->sortable(),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->label(''),
@@ -146,6 +152,11 @@ class AchatResource extends Resource
                     ->label(''),
                 Tables\Actions\DeleteAction::make()
                     ->label(''),
+                Tables\Actions\Action::make('download')
+                    ->label('')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn (Achat $record) => route('achat.download', $record))
+                    ->openUrlInNewTab(true),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -191,7 +202,7 @@ class AchatResource extends Resource
                     ->columns(2)
                     ->schema([
                         Infolists\Components\TextEntry::make('payment_status')
-                    
+
                             ->label('Statut de paiement'),
                         Infolists\Components\TextEntry::make('payment_date')
                             ->dateTime('D M Y')

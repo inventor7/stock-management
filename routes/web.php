@@ -20,4 +20,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/download/{order}', [PdfController::class, 'download'])->name('order.download');
+Route::get('/download/order/{order}', [PdfController::class, 'downloadOrder'])->name('order.download');
+Route::get('/download/achat/{achat}', [PdfController::class, 'downloadAchat'])->name('achat.download');
+
