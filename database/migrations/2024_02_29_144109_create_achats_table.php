@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('achats', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->decimal('price')->nullable()->default(null);
-            $table->string('fournisseur')->nullable()->default(null);
+
+            $table->string('fournisseur_id')->nullable()->default(null);
+            $table->foreign('fournisseur_id')->references('id')->on('fournisseurs');
+
             $table->string('chauffeur_id');
             $table->foreign('chauffeur_id')->references('id')->on('workers');
+
             $table->timestamps();
         });
     }

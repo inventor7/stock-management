@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('fournisseurs', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name');
-            $table->string('phone')->unique();
-            $table->string('address');
-            $table->string('city');
-            $table->string('state');
-            $table->string('note');
+            $table->string('phone')->unique()->nullable()->default(null);
+            $table->string('address')->nullable()->default(null);
+            $table->string('city')->nullable()->default(null);
+            $table->string('state')->nullable()->default(null);
+            $table->string('note')->nullable()->default(null);
             $table->timestamps();
         });
     }
