@@ -69,6 +69,7 @@ class WorkerResource extends Resource
                                 'chefatelier' => "Chef d'Aterlier",
                                 'magasinier' => 'Magasinier',
                                 'montage' => 'Montage',
+                                'CEO' => 'CEO'
                             ])
                             ->columnSpan(1)
                             ->required()

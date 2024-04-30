@@ -67,20 +67,20 @@ class AchatResource extends Resource
                     ->columnSpan(2)
                     ->schema([
                         Forms\Components\Select::make('chauffeur_id')
-                            ->options(Worker::query()->where('role', 'chauffeur')->get()->pluck('name', 'id'))
+                            ->options(Worker::all()->pluck('name', 'id'))
                             ->label('Chauffeur')
                             ->native(false)
                             ->required(),
 
                         Forms\Components\Select::make('fournisseur_id')
                             ->label('Fournisseur')
-                            ->options(Fournisseur::query()->get()->pluck('name', 'id'))
+                            ->options(Fournisseur::all()->pluck('name', 'id'))
                             ->searchable()
                             ->required()
                             ->createOptionForm([
 
                                 Forms\Components\TextInput::make('id')
-                                    ->label('Client ID')
+                                    ->label('Fournisseur ID')
                                     ->default('CL-' . random_int(100000, 999999))
                                     ->disabled()
                                     ->required()
@@ -91,7 +91,8 @@ class AchatResource extends Resource
                                     ->label('Nom')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('note')
+
+                                Forms\Components\TextArea::make('note')
                                     ->label('Note')
                                     ->maxLength(255),
                             ]),

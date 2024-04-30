@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('acomptes', function (Blueprint $table) {
             $table->string('id')->primary();
+            
             $table->string('bon_acompte_id');
             $table->foreign('bon_acompte_id')->references('id')->on('bon_acomptes');
+
             $table->string('worker_id');
             $table->foreign('worker_id')->references('id')->on('workers');
+
             $table->string('amount');
             $table->timestamps();
         });

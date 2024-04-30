@@ -22,4 +22,4 @@ Route::get('/', function () {
 
 Route::get('/download/order/{order}', [PdfController::class, 'downloadOrder'])->name('order.download');
 Route::get('/download/achat/{achat}', [PdfController::class, 'downloadAchat'])->name('achat.download');
-
+Route::get('/download/acompte/{bonAcompte}', [PdfController::class, 'downloadBonAcompte'])->name('acompte.download');
