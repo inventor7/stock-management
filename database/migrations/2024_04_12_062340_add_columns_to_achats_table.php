@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->string('payment_status');
             $table->date('bon_achat_date');
-            $table->date('payment_date');
+            $table->date('payment_date')->nullable()->default(null);
         });
-    }
+    } 
 
     /**
      * Reverse the migrations.

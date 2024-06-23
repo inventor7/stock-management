@@ -67,14 +67,15 @@ class AchatResource extends Resource
                     ->columnSpan(2)
                     ->schema([
                         Forms\Components\Select::make('chauffeur_id')
-                            ->options(Worker::query()->where('role', 'chauffeur')->get()->pluck('name', 'id'))
+                            ->options(Worker::all()->pluck('name', 'id'))
                             ->label('Chauffeur')
+                             ->searchable()
                             ->native(false)
                             ->required(),
 
                         Forms\Components\Select::make('fournisseur_id')
                             ->label('Fournisseur')
-                            ->options(Fournisseur::query()->get()->pluck('name', 'id'))
+                             ->relationship('fournisseur', 'name')
                             ->searchable()
                             ->required()
                             ->createOptionForm([
@@ -109,10 +110,12 @@ class AchatResource extends Resource
                                 'paid' => 'Payé',
                                 'unpaid' => 'Non payé',
                             ])
-                            ->required(), Forms\Components\DatePicker::make('payment_date')
+                            ->required(), 
+
+                       Forms\Components\DatePicker::make('payment_date')
                             ->label('Date de paiement')
-                            ->native(false)
-                            ->required(),
+                            
+                            ->native(false),
                     ]),
             ]);
     }

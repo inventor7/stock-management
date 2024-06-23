@@ -29,7 +29,8 @@ class Modells
             17 => 'sabot',
             18 => 'colle',
             19 => 'glissiére',
-            20 => 'button'
+            20 => 'button',
+            21 => 'bois'
         ];
     }
 }

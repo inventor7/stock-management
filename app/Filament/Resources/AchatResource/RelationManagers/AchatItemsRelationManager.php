@@ -34,6 +34,7 @@ class AchatItemsRelationManager extends RelationManager
                 Forms\Components\Select::make('product_id')
                     ->label('Produit')
                     ->native(false)
+                    ->searchable()
                     ->options(Product::all()->pluck('name', 'id')->toArray())
                     ->required(),
 

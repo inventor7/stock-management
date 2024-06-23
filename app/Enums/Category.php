@@ -96,6 +96,19 @@ class Category
                 'Traingle' =>'Traingle'
             ],
 
+           'Delion' => [
+                '5 litre'=>'5 litre',
+                '25 litre'=>'25 litre',
+            ],
+
+          'Surfaceur' => [
+                '5 litre'=>'5 litre',
+            ],
+
+             'Vernie' => [
+                '5 litre'=>'5 litre',
+            ],
+
              'Cheville' => [
                 'En Bois' => 'En Bois',
                 'Plastique' => 'Plastique' ,
@@ -114,7 +127,8 @@ class Category
                 'Changement Direction 12cm'=>'Changement Direction 12cm',
                 'Separatteur'=>'Separatteur',
                 'Kit Kat' => 'Kit Kat',
-                 'Silofane' => 'Silofane'
+                 'Silofane' => 'Silofane',
+                 'Ferrure' => 'Ferrure' 
             ],
           
           
