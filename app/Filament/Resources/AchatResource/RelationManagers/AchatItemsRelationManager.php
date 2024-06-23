@@ -17,7 +17,7 @@ class AchatItemsRelationManager extends RelationManager
     protected static string $relationship = 'achatitems';
 
     protected static ?string $title = 'Liste des Achats';
-    
+
     public function form(Form $form): Form
     {
         return $form
@@ -36,6 +36,7 @@ class AchatItemsRelationManager extends RelationManager
                     ->native(false)
                     ->searchable()
                     ->options(Product::all()->pluck('name', 'id')->toArray())
+                    ->searchable()
                     ->required(),
 
                 Forms\Components\TextInput::make('quantity')

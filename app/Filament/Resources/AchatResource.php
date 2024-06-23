@@ -81,7 +81,7 @@ class AchatResource extends Resource
                             ->createOptionForm([
 
                                 Forms\Components\TextInput::make('id')
-                                    ->label('Client ID')
+                                    ->label('Fournisseur ID')
                                     ->default('CL-' . random_int(100000, 999999))
                                     ->disabled()
                                     ->required()
@@ -92,7 +92,8 @@ class AchatResource extends Resource
                                     ->label('Nom')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('note')
+
+                                Forms\Components\TextArea::make('note')
                                     ->label('Note')
                                     ->maxLength(255),
                             ]),

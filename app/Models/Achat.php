@@ -17,7 +17,7 @@ class Achat extends Model
 
     public function chauffeur(): HasOne
     {
-        return $this->hasOne(Worker::class, 'id', 'chauffeur_id');
+        return $this->hasOne(Worker::class,'id', 'chauffeur_id');
     }
 
     public function achatitems(): HasMany

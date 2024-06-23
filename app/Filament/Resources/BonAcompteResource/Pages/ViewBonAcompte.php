@@ -16,6 +16,7 @@ class ViewBonAcompte extends ViewRecord
 
     protected function getHeaderActions(): array
     {
+
         return [
 
             Actions\EditAction::make()
@@ -24,7 +25,8 @@ class ViewBonAcompte extends ViewRecord
                 ->label('Télécharger')
                 ->icon('heroicon-o-document-arrow-down')
                 ->openUrlInNewTab(true)
-                ->url(fn (BonAcompte $record) => route('bonacompte.pdf', $record)),
+                ->url(fn (BonAcompte $record) => route('acompte.download', $record))
+
         ];
     }
 }
